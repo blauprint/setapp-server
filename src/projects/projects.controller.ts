@@ -1,11 +1,14 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ClerkAuthGuard } from 'src/auth/clerk/clerk.guard';
+import { ProjectService } from './projects.services';
 
+@UseGuards(ClerkAuthGuard)
 @Controller('projects')
 export class ProjectsController {
+  constructor(private projectService: ProjectService) {}
+  //NOTE: To be implemented. Will need to provide the userId.
   @Get('/')
-  @UseGuards(ClerkAuthGuard)
-  getMe() {
-    return { serverSays: 'Hello, projects controller!'}
+  getProjects() {
+    return this.projectService.getProjects();
   }
 }
