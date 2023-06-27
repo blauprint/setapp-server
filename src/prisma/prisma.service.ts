@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import config from '../../config';
 
 @Injectable()
 export class PrismaService extends PrismaClient {
@@ -7,7 +8,7 @@ export class PrismaService extends PrismaClient {
     super({
       datasources: {
         db: {
-          url: "mongodb+srv://tawfeeq:hellomongo@cluster0.keowhzz.mongodb.net/setapp?retryWrites=true&w=majority"
+          url: config.DATABASE.URL
         }
       }
     })
