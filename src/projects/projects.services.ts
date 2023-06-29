@@ -1,15 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import projectMock from '../../mocks/project';
+import { ColorPaletteDTO, ProjectDTO } from './dto/create-project.dto';
 
 @Injectable()
 export class ProjectService {
 	constructor(private prisma: PrismaService) { }
-	//NOTE: this is an example of service call that needs to be implemented.
-	async getProjects() {
+	async getProjects(userId: string) {
 		return await this.prisma.project.findMany({
 			where: {
-				userId: "user_2RjcGR6PvUylQ1e1Lx1Z9y6lrmQ"
+				userId: userId,
 			},
 			include: {
 				frontend: {
@@ -37,48 +36,48 @@ export class ProjectService {
 		});
 	}
 
-	async createProject() {
-		const colorData: any = projectMock.frontend.colorScheme.colorPalette.map((palette) => ({
+	async createProject(userId: string, dto: ProjectDTO) {
+		const colorData: any = dto.frontend.colorScheme.colorPalette.map((palette: ColorPaletteDTO) => ({
 			name: palette.name,
 			hex: palette.hex,
 			rgb: palette.rgb,
 		}));
 		const backend = await this.prisma.backend.create({
 			data: {
-				todoList: projectMock.backend.todoList,
+				todoList: dto.backend.todoList,
 				framework: {
 					create: {
-						name: projectMock.backend.framework.name,
-						whyGoodOption: projectMock.backend.framework.whyGoodOption,
-						description: projectMock.backend.framework.description,
-						link: projectMock.backend.framework.link
+						name: dto.backend.framework.name,
+						whyGoodOption: dto.backend.framework.whyGoodOption,
+						description: dto.backend.framework.description,
+						link: dto.backend.framework.link
 					}
 				},
 				database: {
 					create: {
-						name: projectMock.backend.database.name,
-						whyGoodOption: projectMock.backend.database.whyGoodOption,
-						description: projectMock.backend.database.description,
-						schema: projectMock.backend.database.schema,
-						link: projectMock.backend.database.link,
+						name: dto.backend.database.name,
+						whyGoodOption: dto.backend.database.whyGoodOption,
+						description: dto.backend.database.description,
+						schema: dto.backend.database.schema,
+						link: dto.backend.database.link,
 					}
 				}
 			}
 		});
 		const frontend = await this.prisma.frontend.create({
 			data: {
-				todoList: projectMock.frontend.toDoList,
+				todoList: dto.frontend.toDoList,
 				framework: {
 					create: {
-						name: projectMock.frontend.framework.name,
-						whyGoodOption: projectMock.frontend.framework.whyGoodOption,
-						description: projectMock.frontend.framework.description,
-						link: projectMock.frontend.framework.link
+						name: dto.frontend.framework.name,
+						whyGoodOption: dto.frontend.framework.whyGoodOption,
+						description: dto.frontend.framework.description,
+						link: dto.frontend.framework.link
 					},
 				},
 				colorScheme: {
 					create: {
-						whyGoodOption: projectMock.frontend.colorScheme.whyGoodOption,
+						whyGoodOption: dto.frontend.colorScheme.whyGoodOption,
 						colorPalette: {
 							create: {
 								color: {
@@ -92,10 +91,10 @@ export class ProjectService {
 		});
 		const project = await this.prisma.project.create({
 			data: {
-				userId: "user_2RjcGR6PvUylQ1e1Lx1Z9y6lrmQ",
-				idea: projectMock.idea,
-				title: projectMock.title,
-				summary: projectMock.summary,
+				userId: userId, 
+				idea: dto.idea,
+				title: dto.title,
+				summary: dto.summary,
 				backendId: backend.id,
 				frontendId: frontend.id
 			}
