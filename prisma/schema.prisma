@@ -11,73 +11,88 @@ datasource db {
 }
 
 model User {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  email    String    @unique
-  projects Project[]
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  clerkUserId String    @unique
+  name        String
+  email       String    @unique
+  projects    Project[]
 }
 
 model Project {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId      String    @db.ObjectId
-  user        User      @relation(fields: [userId], references: [id])
-  idea        String
-  title       String
-  notes       String
-  createdAt   DateTime  @default(now())
-  teckStack   TechStack @relation(fields: [techStackId], references: [id])
-  techStackId String    @unique @db.ObjectId
-}
-
-model TechStack {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  project       Project?
-  projectId     String?  @unique @db.ObjectId
-  backendId     String   @unique @db.ObjectId
-  frontendId    String   @unique @db.ObjectId
-  colorSchemeId String   @unique @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @unique
+  user       User?    @relation(fields: [userId], references: [clerkUserId])
+  idea       String
+  title      String
+  summary    String
+  createdAt  DateTime @default(now())
+  backend    Backend  @relation(fields: [backendId], references: [id])
+  backendId  String   @unique @db.ObjectId
+  frontend   Frontend @relation(fields: [frontendId], references: [id])
+  frontendId String   @unique @db.ObjectId
 }
 
 model Backend {
   id          String     @id @default(auto()) @map("_id") @db.ObjectId
-  database    String
-  frameworkId String     @unique @db.ObjectId
-  Framework   Framework?
+  databaseId  String     @unique @db.ObjectId
+  database    Database?  @relation(fields: [databaseId], references: [id])
+  frameworkId String?    @unique @db.ObjectId
+  framework   Framework?
+  todoList    String[]
+  Project     Project?
 }
 
 model Frontend {
   id            String      @id @default(auto()) @map("_id") @db.ObjectId
   colorScheme   ColorScheme @relation(fields: [colorSchemeId], references: [id])
-  frameworkId   String      @unique @db.ObjectId
+  frameworkId   String?     @unique @db.ObjectId
   framework     Framework?
   colorSchemeId String      @unique @db.ObjectId
+  todoList      String[]
+  Project       Project[]
 }
 
 model Framework {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  whyGoodOption String
+  description   String
+  link          String
+  backend       Backend?  @relation(fields: [backendId], references: [id])
+  backendId     String?   @unique @db.ObjectId
+  frontend      Frontend? @relation(fields: [frontendId], references: [id])
+  frontendId    String?   @unique @db.ObjectId
+}
+
+model ColorScheme {
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  whyGoodOption  String
+  colorPalette   ColorPalette @relation(fields: [colorPaletteId], references: [id])
+  colorPaletteId String       @unique @db.ObjectId
+  Frontend       Frontend?
+}
+
+model ColorPalette {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  color       Color[]
+  ColorScheme ColorScheme?
+}
+
+model Color {
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  hex            String
+  rgb            String
+  ColorPalette   ColorPalette @relation(fields: [colorPaletteId], references: [id])
+  colorPaletteId String       @db.ObjectId
+}
+
+model Database {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   name          String
   whyGoodOption String
   description   String
   link          String
-  backend       Backend? @relation(fields: [backendId], references: [id])
-  backendId     String?  @unique @db.ObjectId
-  frontend      Frontend @relation(fields: [frontendId], references: [id])
-  frontendId    String   @unique @db.ObjectId
-}
-
-model ColorScheme {
-  id            String         @id @default(auto()) @map("_id") @db.ObjectId
-  whyGoodOption String
-  frontend      Frontend?
-  frontendId    String         @unique @db.ObjectId
-  ColorPalette  ColorPalette[]
-}
-
-model ColorPalette {
-  id            String       @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
-  hex           String
-  rgb           String
-  ColorScheme   ColorScheme? @relation(fields: [colorSchemeId], references: [id])
-  colorSchemeId String?      @db.ObjectId
+  schema        String
+  Backend       Backend?
 }

@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ClerkAuthGuard } from 'src/auth/clerk/clerk.guard';
 import { ProjectService } from './projects.services';
 
-@UseGuards(ClerkAuthGuard)
+//@UseGuards(ClerkAuthGuard)
 @Controller('projects')
 export class ProjectsController {
   constructor(private projectService: ProjectService) {}
@@ -10,5 +10,9 @@ export class ProjectsController {
   @Get('/')
   getProjects() {
     return this.projectService.getProjects();
+  }
+  @Post('/')
+  createPoject() {
+    return this.projectService.createProject();
   }
 }
