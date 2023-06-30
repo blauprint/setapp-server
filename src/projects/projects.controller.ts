@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ClerkAuthGuard } from 'src/auth/guard/index';
 import { ProjectService } from './projects.services';
-import { GetUserId } from 'src/auth/decorator';
+import { UserId } from 'src/auth/decorator';
 import { ProjectDTO } from './dto/create-project.dto';
 
 @UseGuards(ClerkAuthGuard)
@@ -9,11 +9,11 @@ import { ProjectDTO } from './dto/create-project.dto';
 export class ProjectsController {
   constructor(private projectService: ProjectService) {}
   @Get('/') 
-  getProjects(@GetUserId() userId: string) {
-    return this.projectService.getProjects(userId);
+  async getProjects(@UserId() userId: string) {
+    return await this.projectService.getProjects(userId);
   }
  @Post('/')
- createPoject(@GetUserId() userId: string, @Body() dto: ProjectDTO) {
-   return this.projectService.createProject(userId, dto);
+ async createPoject(@UserId() userId: string, @Body() dto: ProjectDTO) {
+   return await this.projectService.createProject(userId, dto);
  }
 }

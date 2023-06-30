@@ -1,13 +1,8 @@
-import { BadRequestException, InternalServerErrorException, createParamDecorator } from "@nestjs/common";
-import { Request } from "express";
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
-export const GetUserId = createParamDecorator((request: Request) => { 
- let authHeader: string | undefined; 
-  try {
-    authHeader = request.headers['authorization'];
-  } catch(error) {
-    throw new BadRequestException('Invalid authorization header');
-  }
-  const auth = authHeader ? JSON.parse(authHeader) : null;
-  return auth && auth.userId ? auth.userId : null;
-});
+export const UserId = createParamDecorator(
+  (data: unknown, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getRequest();
+    return JSON.parse(request.headers.authorization).userId;
+  },
+);
