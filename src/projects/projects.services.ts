@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProjectDTO, ColorDTO } from './dto/create-project.dto';
 
 @Injectable()
 export class ProjectService {
 	constructor(private prisma: PrismaService) { }
+
 	async getProjects(userId: string) {
 		return await this.prisma.project.findMany({
 			where: {
@@ -36,9 +37,44 @@ export class ProjectService {
 		});
 	}
 
+	async getProjectById(id: string) {
+		console.log(id, 'id in services')
+		const project = await this.prisma.project.findUnique({
+			where: {
+				id: id,
+			},
+			include: {
+				frontend: {
+					include: {
+						framework: true,
+						colorScheme: {
+							include: {
+								colorPalette: {
+									include: {
+										color: true,
+									}
+								}
+							}
+						}
+					},
+				},
+				backend: {
+					include: {
+						database: true,
+						framework: true,
+					}
+				}
+			}
+		});
+		if (!project) {
+			throw new NotFoundException('Project not found');
+		}
+		return project;
+	}
+
 	async createProject(userId: string, dto: ProjectDTO) {
-		console.log(typeof dto, 'type of the body received from AI');
-		console.log(dto, 'the body received from AI');
+		// console.log(typeof dto, 'type of the body received from AI');
+		// console.log(dto, 'the body received from AI');
 		const colorData: any = dto.frontend.colorScheme.colorPalette.color.map((c: ColorDTO) => ({
 			name: c.name,
 			hex: c.hex,
