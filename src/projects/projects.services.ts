@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { ColorPaletteDTO, ProjectDTO } from './dto/create-project.dto';
+import { ProjectDTO, ColorDTO } from './dto/create-project.dto';
 
 @Injectable()
 export class ProjectService {
@@ -37,10 +37,12 @@ export class ProjectService {
 	}
 
 	async createProject(userId: string, dto: ProjectDTO) {
-		const colorData: any = dto.frontend.colorScheme.colorPalette.map((palette: ColorPaletteDTO) => ({
-			name: palette.name,
-			hex: palette.hex,
-			rgb: palette.rgb,
+		console.log(typeof dto, 'type of the body received from AI');
+		console.log(dto, 'the body received from AI');
+		const colorData: any = dto.frontend.colorScheme.colorPalette.color.map((c: ColorDTO) => ({
+			name: c.name,
+			hex: c.hex,
+			rgb: c.rgb,
 		}));
 		const backend = await this.prisma.backend.create({
 			data: {
@@ -91,7 +93,7 @@ export class ProjectService {
 		});
 		const project = await this.prisma.project.create({
 			data: {
-				userId: userId, 
+				userId: userId,
 				idea: dto.idea,
 				title: dto.title,
 				summary: dto.summary,

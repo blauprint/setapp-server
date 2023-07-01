@@ -17,18 +17,23 @@ class FrameworkDTO {
   link: string;
 }
 
-class ColorDTO {
-  @IsString()
-  @IsNotEmpty()
-  whyGoodOption: string;
-
+class ColorPaletteDTO {
   @ValidateNested({ each: true })
   @ArrayNotEmpty()
   @IsArray()
-  colorPalette: ColorPaletteDTO[];
+  color: ColorDTO[];
 }
 
-export class ColorPaletteDTO {
+class ColorSchemeDTO {
+  @IsString()
+  whyGoodOption: string;
+  @ValidateNested({ each: true })
+  @ArrayNotEmpty()
+  @IsArray()
+  colorPalette: ColorPaletteDTO;
+}
+
+export class ColorDTO {
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -47,7 +52,7 @@ class FrontendDTO {
   framework: FrameworkDTO;
 
   @ValidateNested()
-  colorScheme: ColorDTO;
+  colorScheme: ColorSchemeDTO;
 
   @IsArray()
   @ArrayNotEmpty()
