@@ -37,8 +37,6 @@ export class ProjectService {
 	}
 
 	async createProject(userId: string, dto: ProjectDTO) {
-		console.log(typeof dto, 'type of the body received from AI');
-		console.log(dto, 'the body received from AI');
 		const colorData: any = dto.frontend.colorScheme.colorPalette.color.map((c: ColorDTO) => ({
 			name: c.name,
 			hex: c.hex,
@@ -99,6 +97,10 @@ export class ProjectService {
 				summary: dto.summary,
 				backendId: backend.id,
 				frontendId: frontend.id
+			},
+			include: {
+				backend: true,
+				frontend: true,
 			}
 		});
 		return project;
