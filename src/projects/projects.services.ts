@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProjectDTO, ColorDTO } from './dto/create-project.dto';
+import { Todo } from './dto/update-project-todolist.dto';
 
 @Injectable()
 export class ProjectService {
 	constructor(private prisma: PrismaService) { }
-
 	async getProjects(userId: string) {
 		return await this.prisma.project.findMany({
 			where: {
@@ -15,6 +15,7 @@ export class ProjectService {
 				frontend: {
 					include: {
 						framework: true,
+						todoList: true,
 						colorScheme: {
 							include: {
 								colorPalette: {
@@ -30,13 +31,12 @@ export class ProjectService {
 					include: {
 						database: true,
 						framework: true,
+						todoList: true
 					}
 				}
-
 			}
 		});
 	}
-
 	async getProjectById(id: string) {
 		const project = await this.prisma.project.findUnique({
 			where: {
@@ -70,10 +70,7 @@ export class ProjectService {
 		}
 		return project;
 	}
-
 	async createProject(userId: string, dto: ProjectDTO) {
-		// console.log(typeof dto, 'type of the body received from AI');
-		// console.log(dto, 'the body received from AI');
 		const colorData: any = dto.frontend.colorScheme.colorPalette.color.map((c: ColorDTO) => ({
 			name: c.name,
 			hex: c.hex,
@@ -81,7 +78,6 @@ export class ProjectService {
 		}));
 		const backend = await this.prisma.backend.create({
 			data: {
-				todoList: dto.backend.todoList,
 				framework: {
 					create: {
 						name: dto.backend.framework.name,
@@ -101,9 +97,25 @@ export class ProjectService {
 				}
 			}
 		});
+		//NOTE: We receive the todo list from AI in form of an array of strings
+		// We then transform each string into an object with properties 'title': string
+		// and 'done': boolean
+		for (let todo of dto.backend.todoList) {
+			await this.prisma.todoList.create({
+				data: {
+					title: todo,
+					done: false,
+					backend: {
+						connect: {
+							id: backend.id
+
+						}
+					}
+				}
+			});
+		}
 		const frontend = await this.prisma.frontend.create({
 			data: {
-				todoList: dto.frontend.toDoList,
 				framework: {
 					create: {
 						name: dto.frontend.framework.name,
@@ -126,6 +138,19 @@ export class ProjectService {
 				}
 			}
 		});
+		for (let todo of dto.frontend.todoList) {
+			await this.prisma.todoList.create({
+				data: {
+					title: todo,
+					done: false,
+					frontend: {
+						connect: {
+							id: frontend.id
+						}
+					}
+				}
+			})
+		}
 		const project = await this.prisma.project.create({
 			data: {
 				userId: userId,
@@ -134,8 +159,82 @@ export class ProjectService {
 				summary: dto.summary,
 				backendId: backend.id,
 				frontendId: frontend.id
+			},
+			include: {
+				frontend: {
+					include: {
+						framework: true,
+						todoList: true,
+						colorScheme: {
+							include: {
+								colorPalette: {
+									include: {
+										color: true,
+									}
+								}
+							}
+						}
+					},
+				},
+				backend: {
+					include: {
+						database: true,
+						framework: true,
+						todoList: true
+					}
+				}
 			}
 		});
 		return project;
 	}
+	async createBackendTodo(backendId: string, todo: Todo) {
+		const createdTodo = await this.prisma.todoList.create({
+			data: {
+				title: todo.title,
+				done: false,
+				backend: {
+					connect: { id: backendId }
+				},
+			}
+		});
+		return createdTodo;
+	}
+	async createFrontendTodo(frontendId: string, todo: Todo) {
+		const createdTodo = await this.prisma.todoList.create({
+			data: {
+				title: todo.title,
+				done: false,
+				frontend: {
+					connect: { id: frontendId },
+				},
+			},
+		});
+		return createdTodo;
+	}
+	async updateTodoById(todoId: string, dto: Todo) {
+		const updatedTodo = await this.prisma.todoList.update({
+			where: { id: todoId },
+			data: {
+				title: dto.title,
+				done: dto.done,
+			},
+		});
+		return updatedTodo;
+	}
+	async deleteTodoById(todoId: string) {
+		const deletedTodo = await this.prisma.todoList.delete({
+			where: {
+				id: todoId
+			}
+		});
+		return deletedTodo;
+	}
+  async deleteProject(id: string) {
+    const deletedProject = await this.prisma.project.delete({
+      where: {
+        id: id,
+      },
+    });
+    return deletedProject;
+  }
 }

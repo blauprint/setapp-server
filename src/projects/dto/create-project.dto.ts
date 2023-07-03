@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsUrl, ValidateNested, IsArray, ArrayNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsUrl, ValidateNested, IsArray, ArrayNotEmpty, IsBoolean } from 'class-validator';
 
 class FrameworkDTO {
   @IsString()
@@ -16,7 +16,6 @@ class FrameworkDTO {
   @IsUrl()
   link: string;
 }
-
 class ColorPaletteDTO {
   @ValidateNested({ each: true })
   @ArrayNotEmpty()
@@ -54,9 +53,11 @@ class FrontendDTO {
   @ValidateNested()
   colorScheme: ColorSchemeDTO;
 
+  @IsString()
+  projectId: string;
+
   @IsArray()
-  @ArrayNotEmpty()
-  toDoList: string[];
+  todoList: string; 
 }
 
 class DatabaseDTO {
@@ -88,8 +89,7 @@ class BackendDTO {
   database: DatabaseDTO;
 
   @IsArray()
-  @ArrayNotEmpty()
-  todoList: string[];
+  todoList: string; 
 }
 
 export class ProjectDTO {
@@ -110,5 +110,16 @@ export class ProjectDTO {
 
   @ValidateNested()
   backend: BackendDTO;
+}
+
+export class Todo {
+  @IsString()
+  title: string;
+ 
+  @IsBoolean()
+  done: boolean;
+
+  backendId: string;
+  frontendId: string
 }
 
