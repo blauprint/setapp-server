@@ -8,8 +8,7 @@ import { Todo } from './dto/update-project-todolist.dto';
 @UseGuards(ClerkAuthGuard)
 @Controller('projects')
 export class ProjectsController {
-  constructor(private projectService: ProjectService) {}
-
+  constructor(private projectService: ProjectService) { }
   @Get('/')
   async getProjects(@UserId() userId: string) {
     return await this.projectService.getProjects(userId);
@@ -17,6 +16,10 @@ export class ProjectsController {
   @Post('/')
   async createPoject(@UserId() userId: string, @Body() dto: ProjectDTO) {
     return await this.projectService.createProject(userId, dto);
+  }
+  @Get(':id')
+  async getProjectById(@Param('id') id: string) {
+    return await this.projectService.getProjectById(id);
   }
   @Put('/todo/:id')
   async updateTodo(@Param('id') id: string, @Body() dto: Todo) {
@@ -39,3 +42,5 @@ export class ProjectsController {
     return await this.projectService.deleteProject(id);
   }
 }
+
+

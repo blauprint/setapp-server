@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProjectDTO, ColorDTO } from './dto/create-project.dto';
 import { Todo } from './dto/update-project-todolist.dto';
@@ -37,7 +37,39 @@ export class ProjectService {
 			}
 		});
 	}
-
+	async getProjectById(id: string) {
+		const project = await this.prisma.project.findUnique({
+			where: {
+				id: id,
+			},
+			include: {
+				frontend: {
+					include: {
+						framework: true,
+						colorScheme: {
+							include: {
+								colorPalette: {
+									include: {
+										color: true,
+									}
+								}
+							}
+						}
+					},
+				},
+				backend: {
+					include: {
+						database: true,
+						framework: true,
+					}
+				}
+			}
+		});
+		if (!project) {
+			throw new NotFoundException('Project not found');
+		}
+		return project;
+	}
 	async createProject(userId: string, dto: ProjectDTO) {
 		const colorData: any = dto.frontend.colorScheme.colorPalette.color.map((c: ColorDTO) => ({
 			name: c.name,
@@ -168,7 +200,6 @@ export class ProjectService {
 		return createdTodo;
 	}
 	async createFrontendTodo(frontendId: string, todo: Todo) {
-		console.log(todo, 'from service')
 		const createdTodo = await this.prisma.todoList.create({
 			data: {
 				title: todo.title,
@@ -188,7 +219,6 @@ export class ProjectService {
 				done: dto.done,
 			},
 		});
-
 		return updatedTodo;
 	}
 	async deleteTodoById(todoId: string) {
@@ -199,7 +229,6 @@ export class ProjectService {
 		});
 		return deletedTodo;
 	}
-
   async deleteProject(id: string) {
     const deletedProject = await this.prisma.project.delete({
       where: {
