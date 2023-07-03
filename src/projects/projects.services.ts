@@ -106,12 +106,11 @@ export class ProjectService {
   }
 
   async deleteProject(id: string) {
-    const deleteProject = await this.prisma.project.delete({
+    const deletedProject = await this.prisma.project.delete({
       where: {
         id: id,
       },
     });
-    console.log('deleted project', deleteProject);
-    return deleteProject;
+    return deletedProject;
   }
 }
