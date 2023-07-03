@@ -38,7 +38,7 @@ model Backend {
   database    Database?  @relation(fields: [databaseId], references: [id])
   frameworkId String?    @unique @db.ObjectId
   framework   Framework?
-  todoList    String[]
+  todoList    TodoList[]
   Project     Project?
 }
 
@@ -48,8 +48,19 @@ model Frontend {
   frameworkId   String?     @unique @db.ObjectId
   framework     Framework?
   colorSchemeId String      @unique @db.ObjectId
-  todoList      String[]
-  Project       Project[]
+  todoList      TodoList[]
+  Project       Project?
+}
+
+model TodoList {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  done       Boolean
+  backend    Backend?  @relation(fields: [backendId], references: [id])
+  backendId  String?   @db.ObjectId
+  frontend   Frontend? @relation(fields: [frontendId], references: [id])
+  frontendId String?   @db.ObjectId
+  createdAt  DateTime  @default(now())
 }
 
 model Framework {
