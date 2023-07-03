@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { ClerkAuthGuard } from 'src/auth/guard/index';
+import { ClerkAuthGuard } from '../../src/auth/guard/index';
 import { ProjectService } from './projects.services';
-import { UserId } from 'src/auth/decorator';
+import { UserId } from '../../src/auth/decorator';
 import { ProjectDTO } from './dto/create-project.dto';
 
 @UseGuards(ClerkAuthGuard)
