@@ -38,7 +38,6 @@ export class ProjectService {
 	}
 
 	async getProjectById(id: string) {
-		console.log(id, 'id in services')
 		const project = await this.prisma.project.findUnique({
 			where: {
 				id: id,
