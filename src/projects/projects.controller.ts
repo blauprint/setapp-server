@@ -5,12 +5,13 @@ import { UserId } from 'src/auth/decorator';
 import { ProjectDTO } from './dto/create-project.dto';
 import { Todo } from './dto/update-project-todolist.dto';
 
-@UseGuards(ClerkAuthGuard)
+// @UseGuards(ClerkAuthGuard)
 @Controller('projects')
 export class ProjectsController {
   constructor(private projectService: ProjectService) { }
   @Get('/')
-  async getProjects(@UserId() userId: string) {
+  async getProjects(userId: string) {
+    userId = 'user_2RjcGR6PvUylQ1e1Lx1Z9y6lrmQ';
     return await this.projectService.getProjects(userId);
   }
   @Post('/')
