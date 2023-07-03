@@ -8,7 +8,8 @@ import { Todo } from './dto/update-project-todolist.dto';
 @UseGuards(ClerkAuthGuard)
 @Controller('projects')
 export class ProjectsController {
-  constructor(private projectService: ProjectService) { }
+  constructor(private projectService: ProjectService) {}
+
   @Get('/')
   async getProjects(@UserId() userId: string) {
     return await this.projectService.getProjects(userId);
@@ -32,5 +33,9 @@ export class ProjectsController {
   @Post('/backend/:backendId/todo')
   async createBackendTodo(@Param('backendId') backendId: string, @Body() dto: Todo) {
     return await this.projectService.createBackendTodo(backendId, dto);
+  }
+  @Delete('/:id')
+  async deleteProject(@Param('id') id: string) {
+    return await this.projectService.deleteProject(id);
   }
 }
