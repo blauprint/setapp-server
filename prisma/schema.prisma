@@ -85,7 +85,7 @@ model ColorScheme {
 
 model ColorPalette {
   id          String       @id @default(auto()) @map("_id") @db.ObjectId
-  color       Color[]
+  colors      Color[]
   ColorScheme ColorScheme?
 }
 
