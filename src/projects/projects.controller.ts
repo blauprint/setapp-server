@@ -1,14 +1,23 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { ClerkAuthGuard } from 'src/auth/guard/index';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
+import { ClerkAuthGuard } from '../../src/auth/guard/index';
 import { ProjectService } from './projects.services';
-import { UserId } from 'src/auth/decorator';
+import { UserId } from '../../src/auth/decorator';
 import { ProjectDTO } from './dto/create-project.dto';
 import { Todo } from './dto/update-project-todolist.dto';
 
 @UseGuards(ClerkAuthGuard)
 @Controller('projects')
 export class ProjectsController {
-  constructor(private projectService: ProjectService) { }
+  constructor(private projectService: ProjectService) {}
   @Get('/')
   async getProjects(@UserId() userId: string) {
     return await this.projectService.getProjects(userId);
@@ -30,11 +39,17 @@ export class ProjectsController {
     return await this.projectService.deleteTodoById(id);
   }
   @Post('/frontend/:frontendId/todo')
-  async createFrontendTodo(@Param('frontendId') frontendId: string, @Body() dto: Todo) {
+  async createFrontendTodo(
+    @Param('frontendId') frontendId: string,
+    @Body() dto: Todo,
+  ) {
     return await this.projectService.createFrontendTodo(frontendId, dto);
   }
   @Post('/backend/:backendId/todo')
-  async createBackendTodo(@Param('backendId') backendId: string, @Body() dto: Todo) {
+  async createBackendTodo(
+    @Param('backendId') backendId: string,
+    @Body() dto: Todo,
+  ) {
     return await this.projectService.createBackendTodo(backendId, dto);
   }
   @Delete('/:id')
@@ -42,5 +57,3 @@ export class ProjectsController {
     return await this.projectService.deleteProject(id);
   }
 }
-
-
