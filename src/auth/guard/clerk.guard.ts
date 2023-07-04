@@ -3,6 +3,7 @@ import clerk from '@clerk/clerk-sdk-node';
 
 @Injectable()
 export class ClerkAuthGuard implements CanActivate {
+
   async canActivate(context: ExecutionContext): Promise<boolean> {
     try {
       const request = context.switchToHttp().getRequest();

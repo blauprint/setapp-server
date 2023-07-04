@@ -7,7 +7,6 @@ import * as mocks from '../../test/mocks'
 describe('ProjectsController', () => {
   let controller: ProjectsController;
   let service: ProjectService;
-  // let prisma: PrismaService;
 
   let findManyMock: jest.Mock;
 
@@ -28,17 +27,8 @@ describe('ProjectsController', () => {
     }).compile();
 
     service = module.get<ProjectService>(ProjectService);
-    // prisma = module.get<PrismaService>(PrismaService);
     controller = module.get<ProjectsController>(ProjectsController);
-
-    // prisma = new PrismaService();
-    // service = new ProjectService(prisma);
-    // controller = new ProjectsController(service);
   });
-
-  // it('should be defined', () => {
-  //   expect(controller).toBeDefined();
-  // });
 
   describe('getProjects', () => {
     let projects;
@@ -47,9 +37,7 @@ describe('ProjectsController', () => {
       findManyMock.mockResolvedValue(projects);
     });
     it('should return an array of projects', async () => {
-      // const result = [mocks.mockProject];
       const result = await controller.getProjects(mocks.mockUserId);
-      // jest.spyOn(service, 'getProjects').mockImplementation(() => result);
 
       expect(result).toEqual([mocks.mockProject]);
     });
