@@ -75,7 +75,7 @@ export class ProjectService {
 	async createProject(userId: string, dto: ProjectDTO) {
 		const transaction = await this.prisma.$transaction(async () => {
 
-			const colorData: any = dto.frontend.colorScheme.colorPalette.color.map((c: ColorDTO) => ({
+			const colorData: any = dto.frontend.colorScheme.colorPalette.colors.map((c: ColorDTO) => ({
 				name: c.name,
 				hex: c.hex,
 				rgb: c.rgb,

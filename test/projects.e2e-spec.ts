@@ -36,9 +36,8 @@ describe('Projects', () => {
     it('should return projects for the authenticated user', async () => {
       let projects = [mocks.mockProject];
 
-      console.log(app.getHttpServer());
       const response = await request(app.getHttpServer())
-        .get('/projects')
+        .get('/')
         .expect(200)
 
       expect(response.body).toEqual(projects)

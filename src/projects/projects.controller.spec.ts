@@ -4,14 +4,19 @@ import { ProjectService } from './projects.services';
 import { PrismaService } from '../../src/prisma/prisma.service';
 import * as mocks from '../../test/mocks'
 
+
 describe('ProjectsController', () => {
   let controller: ProjectsController;
   let service: ProjectService;
 
   let findManyMock: jest.Mock;
+  let findUniqueMock: jest.Mock;
+  let createMock: jest.Mock;
 
   beforeEach(async () => {
     findManyMock = jest.fn();
+    findUniqueMock = jest.fn();
+    createMock = jest.fn();
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ProjectsController],
       providers: [
@@ -20,7 +25,9 @@ describe('ProjectsController', () => {
           provide: PrismaService,
           useValue: {
             project: {
-              findMany: findManyMock
+              findMany: findManyMock,
+              findUnique: findUniqueMock,
+              create: createMock,
             }
           }
         }]
@@ -41,6 +48,35 @@ describe('ProjectsController', () => {
 
       expect(result).toEqual([mocks.mockProject]);
     });
+  });
+
+  describe('getProjectById', () => {
+    let project;
+    beforeEach(() => {
+      project = mocks.mockProject;
+      findUniqueMock.mockResolvedValue(project);
+    });
+
+    it('should return a project', async () => {
+      const result = await controller.getProjectById(mocks.mockProjectId);
+
+      expect(result).toEqual(mocks.mockProject);
+    });
+  });
+
+  describe('createProject', () => {
+    let projectToCreate;
+    beforeEach(() => {
+      projectToCreate = mocks.mockProjectToCreate;
+      createMock.mockResolvedValue(projectToCreate);
+    });
+
+    it('should create a new project', async () => {
+      const result = await controller.createPoject('1', mocks.mockProjectToCreate);
+
+      expect(result).toEqual(mocks.mockProject);
+    });
+
   });
 
 });

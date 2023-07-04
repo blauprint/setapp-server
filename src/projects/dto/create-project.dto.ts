@@ -20,7 +20,7 @@ class ColorPaletteDTO {
   @ValidateNested({ each: true })
   @ArrayNotEmpty()
   @IsArray()
-  color: ColorDTO[];
+  colors: ColorDTO[];
 }
 
 class ColorSchemeDTO {
@@ -57,7 +57,7 @@ class FrontendDTO {
   projectId: string;
 
   @IsArray()
-  todoList: string; 
+  todoList: string;
 }
 
 class DatabaseDTO {
@@ -89,7 +89,7 @@ class BackendDTO {
   database: DatabaseDTO;
 
   @IsArray()
-  todoList: string; 
+  todoList: string;
 }
 
 export class ProjectDTO {
@@ -115,7 +115,7 @@ export class ProjectDTO {
 export class Todo {
   @IsString()
   title: string;
- 
+
   @IsBoolean()
   done: boolean;
 

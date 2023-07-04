@@ -7,6 +7,7 @@ export const mockProject = {
   forontendId: '1',
   frontend: {
     id: '1',
+    projectId: '1',
     todoList: ['test1', 'texst2'],
     frameworkId: '1',
     framework: {
@@ -19,13 +20,14 @@ export const mockProject = {
     colorScheme: {
       whyGoodOption: 'test',
       colorPalette: {
-        color: []
+        colors: []
       }
     },
   },
   backendId: '1',
   backend: {
     id: '1',
+    projectId: '1',
     todoList: ['test1', 'test2'],
     frameworkId: '1',
     framework: {
@@ -46,4 +48,45 @@ export const mockProject = {
   createdAt: 0
 }
 
+export const mockProjectToCreate = {
+  summary: 'idea',
+  idea: 'mock idea',
+  title: 'mock',
+  frontend: {
+    projectId: '1',
+    todoList: 'test1',
+    framework: {
+      name: 'test',
+      whyGoodOption: 'test',
+      description: 'test',
+      link: 'test'
+    },
+    colorScheme: {
+      whyGoodOption: 'test',
+      colorPalette: {
+        colors: []
+      }
+    },
+  },
+  backend: {
+    projectId: '1',
+    todoList: 'test1',
+    framework: {
+      name: 'test',
+      whyGoodOption: 'test',
+      description: 'test',
+      link: 'test'
+    },
+    database: {
+      name: 'test',
+      whyGoodOption: 'test',
+      description: 'test',
+      link: 'test',
+      schema: 'test'
+    },
+  },
+}
+
 export const mockUserId = '1';
+
+export const mockProjectId = '1';
