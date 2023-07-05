@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nes
 import { ClerkAuthGuard } from 'src/auth/guard/index';
 import { ProjectService } from './projects.services';
 import { UserId } from 'src/auth/decorator';
-import { ProjectDTO } from './dto/create-project.dto';
+import { ColorDTO, ProjectDTO } from './dto/create-project.dto';
 import { Todo } from './dto/update-project-todolist.dto';
 
 @UseGuards(ClerkAuthGuard)
@@ -44,5 +44,9 @@ export class ProjectsController {
   @Delete('/:id')
   async deleteProject(@Param('id') id: string) {
     return await this.projectService.deleteProject(id);
+  }
+  @Put('/color/:id')
+  async updateColor(@Param('id') id: string, @Body() dto: ColorDTO) {
+    return await this.projectService.updateColorService(id, dto);
   }
 }
