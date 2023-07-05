@@ -17,6 +17,10 @@ export class ProjectsController {
   async createProject(@UserId() userId: string, @Body() dto: ProjectDTO) {
     return await this.projectService.createProject(userId, dto);
   }
+  @Put('/:id/title')
+  async updateProjectTitle(@Param('id') id: string, @Body() dto: ProjectDTO) {
+    return await this.projectService.updateProjectTitleService(id, dto);
+  }
   @Get(':id')
   async getProjectById(@Param('id') id: string) {
     return await this.projectService.getProjectById(id);
