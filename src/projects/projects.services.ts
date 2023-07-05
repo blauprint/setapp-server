@@ -194,7 +194,7 @@ export class ProjectService {
 		});
 		return transaction;
 	}
-	async updateProjectTitleServive(id: string, dto: {title: string}) {
+	async updateProjectTitleService(id: string, dto: {title: string}) {
 		const updateProjectTitleInDb = await this.prisma.project.update({
 			where: {
 				id: id
