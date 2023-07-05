@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProjectDTO, ColorDTO } from './dto/create-project.dto';
 import { Todo } from './dto/update-project-todolist.dto';
-import { PrismaClientValidationError } from '@prisma/client/runtime';
 
 @Injectable()
 export class ProjectService {
