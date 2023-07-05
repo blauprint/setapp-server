@@ -20,7 +20,7 @@ class ColorPaletteDTO {
   @ValidateNested({ each: true })
   @ArrayNotEmpty()
   @IsArray()
-  color: ColorDTO[];
+  colors: ColorDTO[];
 }
 
 class ColorSchemeDTO {
