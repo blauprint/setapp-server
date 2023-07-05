@@ -14,7 +14,7 @@ export class ProjectsController {
     return await this.projectService.getProjects(userId);
   }
   @Post('/')
-  async createPoject(@UserId() userId: string, @Body() dto: ProjectDTO) {
+  async createProject(@UserId() userId: string, @Body() dto: ProjectDTO) {
     return await this.projectService.createProject(userId, dto);
   }
   @Get(':id')
@@ -42,5 +42,3 @@ export class ProjectsController {
     return await this.projectService.deleteProject(id);
   }
 }
-
-
