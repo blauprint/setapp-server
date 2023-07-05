@@ -102,10 +102,10 @@ export class ProjectDTO {
   @IsNotEmpty()
   summary: string;
 
-  @ValidateNested()
+  @IsNotEmpty()
   frontend: FrontendDTO;
 
-  @ValidateNested()
+  @IsNotEmpty()
   backend: BackendDTO;
 }
 
