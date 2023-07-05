@@ -34,15 +34,12 @@ class ColorSchemeDTO {
 
 export class ColorDTO {
   @IsString()
-  @IsNotEmpty()
   name: string;
 
   @IsString()
-  @IsNotEmpty()
   hex: string;
 
   @IsString()
-  @IsNotEmpty()
   rgb: string;
 }
 

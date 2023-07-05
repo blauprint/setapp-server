@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProjectDTO, ColorDTO } from './dto/create-project.dto';
 import { Todo } from './dto/update-project-todolist.dto';
+import { PrismaClientValidationError } from '@prisma/client/runtime';
 
 @Injectable()
 export class ProjectService {
@@ -193,7 +194,7 @@ export class ProjectService {
 		});
 		return transaction;
 	}
-	async updateProjectTitleService(id: string, dto: {title: string}) {
+	async updateProjectTitleService(id: string, dto: { title: string }) {
 		const updateProjectTitleInDb = await this.prisma.project.update({
 			where: {
 				id: id
@@ -253,5 +254,14 @@ export class ProjectService {
 			},
 		});
 		return deletedProject;
+	}
+	async updateColorService(id: string, dto: ColorDTO) {
+		const updatedColor = await this.prisma.color.update({
+			where: {
+				id: id,
+			},
+			data: dto
+		});
+		return updatedColor;
 	}
 }
