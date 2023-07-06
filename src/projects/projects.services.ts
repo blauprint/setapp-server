@@ -100,6 +100,7 @@ export class ProjectService {
 					}
 				}
 			});
+
 			//NOTE: We receive the todo list from AI in form of an array of strings
 			// We then transform each string into an object with properties 'title': string
 			// and 'done': boolean
