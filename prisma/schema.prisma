@@ -104,6 +104,6 @@ model Database {
   whyGoodOption String
   description   String
   link          String
-  schema        String
+  schema        String?
   Backend       Backend?
 }

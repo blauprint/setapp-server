@@ -73,6 +73,7 @@ export class ProjectService {
 		return project;
 	}
 	async createProject(userId: string, dto: ProjectDTO) {
+		console.log(dto.backend)
 		const transaction = await this.prisma.$transaction(async () => {
 			const colorData: any = dto.frontend.colorScheme.colorPalette.colors.map((c: ColorDTO) => ({
 				name: c.name,
@@ -100,6 +101,7 @@ export class ProjectService {
 					}
 				}
 			});
+
 			//NOTE: We receive the todo list from AI in form of an array of strings
 			// We then transform each string into an object with properties 'title': string
 			// and 'done': boolean
