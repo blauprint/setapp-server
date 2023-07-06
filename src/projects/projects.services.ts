@@ -73,7 +73,6 @@ export class ProjectService {
 		return project;
 	}
 	async createProject(userId: string, dto: ProjectDTO) {
-		console.log(dto.backend)
 		const transaction = await this.prisma.$transaction(async () => {
 			const colorData: any = dto.frontend.colorScheme.colorPalette.colors.map((c: ColorDTO) => ({
 				name: c.name,
