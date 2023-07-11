@@ -17,7 +17,7 @@ class FrameworkDTO {
   link: string;
 }
 class ColorPaletteDTO {
-  @ValidateNested({ each: true })
+  @ValidateNested()
   @ArrayNotEmpty()
   @IsArray()
   colors: ColorDTO[];
@@ -26,7 +26,8 @@ class ColorPaletteDTO {
 class ColorSchemeDTO {
   @IsString()
   whyGoodOption: string;
-  @ValidateNested({ each: true })
+
+  @ValidateNested()
   @ArrayNotEmpty()
   @IsArray()
   colorPalette: ColorPaletteDTO;
@@ -34,15 +35,12 @@ class ColorSchemeDTO {
 
 export class ColorDTO {
   @IsString()
-  @IsNotEmpty()
   name: string;
 
   @IsString()
-  @IsNotEmpty()
   hex: string;
 
   @IsString()
-  @IsNotEmpty()
   rgb: string;
 }
 
@@ -89,6 +87,7 @@ class BackendDTO {
   database: DatabaseDTO;
 
   @IsArray()
+  @ValidateNested()
   todoList: string;
 }
 
@@ -105,10 +104,10 @@ export class ProjectDTO {
   @IsNotEmpty()
   summary: string;
 
-  @ValidateNested()
+  @IsNotEmpty()
   frontend: FrontendDTO;
 
-  @ValidateNested()
+  @IsNotEmpty()
   backend: BackendDTO;
 }
 

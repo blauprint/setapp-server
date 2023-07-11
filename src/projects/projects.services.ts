@@ -74,7 +74,6 @@ export class ProjectService {
 	}
 	async createProject(userId: string, dto: ProjectDTO) {
 		const transaction = await this.prisma.$transaction(async () => {
-
 			const colorData: any = dto.frontend.colorScheme.colorPalette.colors.map((c: ColorDTO) => ({
 				name: c.name,
 				hex: c.hex,
@@ -101,6 +100,7 @@ export class ProjectService {
 					}
 				}
 			});
+
 			//NOTE: We receive the todo list from AI in form of an array of strings
 			// We then transform each string into an object with properties 'title': string
 			// and 'done': boolean
@@ -194,6 +194,17 @@ export class ProjectService {
 		});
 		return transaction;
 	}
+	async updateProjectTitleService(id: string, dto: { title: string }) {
+		const updateProjectTitleInDb = await this.prisma.project.update({
+			where: {
+				id: id
+			},
+			data: {
+				title: dto.title
+			}
+		})
+		return updateProjectTitleInDb;
+	}
 	async createBackendTodo(backendId: string, todo: Todo) {
 		const createdTodo = await this.prisma.todoList.create({
 			data: {
@@ -243,5 +254,14 @@ export class ProjectService {
 			},
 		});
 		return deletedProject;
+	}
+	async updateColorService(id: string, dto: ColorDTO) {
+		const updatedColor = await this.prisma.color.update({
+			where: {
+				id: id,
+			},
+			data: dto
+		});
+		return updatedColor;
 	}
 }

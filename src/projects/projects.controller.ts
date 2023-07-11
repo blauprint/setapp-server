@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ClerkAuthGuard } from '../../src/auth/guard/index';
 import { ProjectService } from './projects.services';
-import { UserId } from '../../src/auth/decorator';
-import { ProjectDTO } from './dto/create-project.dto';
+import { UserId } from 'src/auth/decorator';
+import { ColorDTO, ProjectDTO } from './dto/create-project.dto';
 import { Todo } from './dto/update-project-todolist.dto';
 
 @UseGuards(ClerkAuthGuard)
@@ -14,8 +14,12 @@ export class ProjectsController {
     return await this.projectService.getProjects(userId);
   }
   @Post('/')
-  async createPoject(@UserId() userId: string, @Body() dto: ProjectDTO) {
+  async createProject(@UserId() userId: string, @Body() dto: ProjectDTO) {
     return await this.projectService.createProject(userId, dto);
+  }
+  @Put('/:id/title')
+  async updateProjectTitle(@Param('id') id: string, @Body() dto: ProjectDTO) {
+    return await this.projectService.updateProjectTitleService(id, dto);
   }
   @Get(':id')
   async getProjectById(@Param('id') id: string) {
@@ -41,6 +45,8 @@ export class ProjectsController {
   async deleteProject(@Param('id') id: string) {
     return await this.projectService.deleteProject(id);
   }
+  @Put('/color/:id')
+  async updateColor(@Param('id') id: string, @Body() dto: ColorDTO) {
+    return await this.projectService.updateColorService(id, dto);
+  }
 }
-
-
