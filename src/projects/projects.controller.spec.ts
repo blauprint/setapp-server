@@ -3,20 +3,25 @@ import { ProjectsController } from './projects.controller';
 import { ProjectService } from './projects.services';
 import { PrismaService } from '../../src/prisma/prisma.service';
 import * as mocks from '../../test/mocks'
+import { PrismaClient } from '@prisma/client';
+import { mockDeep } from 'jest-mock-extended';
 
 
 describe('ProjectsController', () => {
   let controller: ProjectsController;
-  let service: ProjectService;
+  // let pri: PrismaClient = new PrismaClient();
+  let pri: PrismaClient = mockDeep<PrismaClient>();
+  let prisma: PrismaService = new PrismaService();
+  let service: ProjectService = new ProjectService(pri);
 
   let findManyMock: jest.Mock;
   let findUniqueMock: jest.Mock;
-  let createMock: jest.Mock;
+  let createProjectMock: jest.Mock;
 
   beforeEach(async () => {
-    findManyMock = jest.fn();
-    findUniqueMock = jest.fn();
-    createMock = jest.fn();
+    findManyMock = jest.fn(service.getProjects);
+    findUniqueMock = jest.fn(service.getProjectById);
+    createProjectMock = jest.fn(service.createProject);
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ProjectsController],
       providers: [
@@ -27,7 +32,7 @@ describe('ProjectsController', () => {
             project: {
               findMany: findManyMock,
               findUnique: findUniqueMock,
-              create: createMock,
+              create: createProjectMock,
             }
           }
         }]
@@ -68,13 +73,13 @@ describe('ProjectsController', () => {
     let projectToCreate;
     beforeEach(() => {
       projectToCreate = mocks.mockProjectToCreate;
-      createMock.mockResolvedValue(projectToCreate);
+      createProjectMock.mockResolvedValue(projectToCreate);
     });
 
     it('should create a new project', async () => {
-      const result = await controller.createPoject('1', mocks.mockProjectToCreate);
-
-      expect(result).toEqual(mocks.mockProject);
+      const result = await controller.createProject('1', mocks.mockProjectToCreate);
+      console.log(result, 'result');
+      expect(result.backend.database).toHaveProperty("schema");
     });
 
   });

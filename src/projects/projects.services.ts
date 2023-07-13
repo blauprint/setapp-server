@@ -2,9 +2,13 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProjectDTO, ColorDTO } from './dto/create-project.dto';
 import { Todo } from './dto/update-project-todolist.dto';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class ProjectService {
+
+	pri = new PrismaClient();
+
 	constructor(private prisma: PrismaService) { }
 	async getProjects(userId: string) {
 		return await this.prisma.project.findMany({
@@ -72,14 +76,15 @@ export class ProjectService {
 		}
 		return project;
 	}
+
 	async createProject(userId: string, dto: ProjectDTO) {
-		const transaction = await this.prisma.$transaction(async () => {
+		return await this.pri.$transaction(async (tx: PrismaClient) => {
 			const colorData: any = dto.frontend.colorScheme.colorPalette.colors.map((c: ColorDTO) => ({
 				name: c.name,
 				hex: c.hex,
 				rgb: c.rgb,
 			}));
-			const backend = await this.prisma.backend.create({
+			const backend = await tx.backend.create({
 				data: {
 					framework: {
 						create: {
@@ -105,7 +110,7 @@ export class ProjectService {
 			// We then transform each string into an object with properties 'title': string
 			// and 'done': boolean
 			for (let todo of dto.backend.todoList) {
-				await this.prisma.todoList.create({
+				await tx.todoList.create({
 					data: {
 						title: todo,
 						done: false,
@@ -118,7 +123,7 @@ export class ProjectService {
 					}
 				});
 			}
-			const frontend = await this.prisma.frontend.create({
+			const frontend = await tx.frontend.create({
 				data: {
 					framework: {
 						create: {
@@ -143,7 +148,7 @@ export class ProjectService {
 				}
 			});
 			for (let todo of dto.frontend.todoList) {
-				await this.prisma.todoList.create({
+				await tx.todoList.create({
 					data: {
 						title: todo,
 						done: false,
@@ -155,7 +160,7 @@ export class ProjectService {
 					}
 				})
 			}
-			const project = await this.prisma.project.create({
+			const project = await tx.project.create({
 				data: {
 					userId: userId,
 					idea: dto.idea,
@@ -190,10 +195,9 @@ export class ProjectService {
 				}
 			});
 			return project;
-
 		});
-		return transaction;
 	}
+
 	async updateProjectTitleService(id: string, dto: { title: string }) {
 		const updateProjectTitleInDb = await this.prisma.project.update({
 			where: {
@@ -205,6 +209,7 @@ export class ProjectService {
 		})
 		return updateProjectTitleInDb;
 	}
+
 	async createBackendTodo(backendId: string, todo: Todo) {
 		const createdTodo = await this.prisma.todoList.create({
 			data: {
@@ -217,6 +222,7 @@ export class ProjectService {
 		});
 		return createdTodo;
 	}
+
 	async createFrontendTodo(frontendId: string, todo: Todo) {
 		const createdTodo = await this.prisma.todoList.create({
 			data: {
@@ -229,6 +235,7 @@ export class ProjectService {
 		});
 		return createdTodo;
 	}
+
 	async updateTodoById(todoId: string, dto: Todo) {
 		const updatedTodo = await this.prisma.todoList.update({
 			where: { id: todoId },
@@ -239,6 +246,7 @@ export class ProjectService {
 		});
 		return updatedTodo;
 	}
+
 	async deleteTodoById(todoId: string) {
 		const deletedTodo = await this.prisma.todoList.delete({
 			where: {
@@ -247,6 +255,7 @@ export class ProjectService {
 		});
 		return deletedTodo;
 	}
+
 	async deleteProject(id: string) {
 		const deletedProject = await this.prisma.project.delete({
 			where: {
@@ -255,6 +264,7 @@ export class ProjectService {
 		});
 		return deletedProject;
 	}
+
 	async updateColorService(id: string, dto: ColorDTO) {
 		const updatedColor = await this.prisma.color.update({
 			where: {

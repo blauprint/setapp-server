@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ClerkAuthGuard } from '../../src/auth/guard/index';
 import { ProjectService } from './projects.services';
-import { UserId } from 'src/auth/decorator';
+import { UserId } from '../../src/auth/decorator';
 import { ColorDTO, ProjectDTO } from './dto/create-project.dto';
 import { Todo } from './dto/update-project-todolist.dto';
 
