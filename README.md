@@ -1,4 +1,4 @@
-# BlauPrint - Beginner's MVP Creation App
+# SetApp - Beginner's MVP Creation App
 
 Welcome to SetApp, an app designed to help beginner developers create their first Minimum Viable Product (MVP). This app provides valuable tips on which frameworks to use, the database schema, color schema, and step-by-step guidance on how to proceed. Powered by OpenAI, SetApp aims to simplify the MVP creation process for aspiring developers.
 
