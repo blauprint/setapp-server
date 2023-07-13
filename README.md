@@ -1,77 +1,112 @@
-<<<<<<< HEAD
-# setapp-server
-=======
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# BlauPrint - Beginner's MVP Creation App
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Welcome to SetApp, an app designed to help beginner developers create their first Minimum Viable Product (MVP). This app provides valuable tips on which frameworks to use, the database schema, color schema, and step-by-step guidance on how to proceed. Powered by OpenAI, SetApp aims to simplify the MVP creation process for aspiring developers.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Organization: BlauPrint
 
-## Description
+BlauPrint is an organization consisting of four talented developers who are passionate about helping beginners kickstart their development journey. Our team has created separate repositories for the client-side (https://github.com/blauprint/setapp-client) and server-side (https://github.com/blauprint/setapp-server) components of the app.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Features
 
-## Installation
+- Step-by-step guidance for creating your first MVP
+- Framework recommendations for different aspects of your project
+- Database schema suggestions 
+- Color schema suggestions for a visually appealing interface
+- Seamless integration with OpenAI for enhanced functionality
 
-```bash
-$ npm install
+## Getting Started
+
+To get started with SetApp, follow the instructions below:
+
+### Client-Side Installation
+
+1. Clone the client-side repository from GitHub.
+2. Open a terminal and navigate to the cloned directory.
+3. Install the necessary dependencies by running the following command:
+
+```shell
+npm install
 ```
 
-## Running the app
+4. Create a new file named `.env` in the root directory and populate it with the required environment variables listed in the `sample.env` file.
 
-```bash
-# development
-$ npm run start
+5. Run the development server using the following command:
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```shell
+npm run dev
 ```
 
-## Test
+6. Access the app by opening your browser and visiting the provided `PORT` (e.g., `http://localhost:3000`).
 
-```bash
-# unit tests
-$ npm run test
+### Server-Side Installation
 
-# e2e tests
-$ npm run test:e2e
+1. Clone the server-side repository from GitHub.
+2. Open a terminal and navigate to the cloned directory.
+3. Install the necessary dependencies by running the following command:
 
-# test coverage
-$ npm run test:cov
+```shell
+npm install
 ```
+
+4. Create a new file named `env.local` in the root directory and populate it with the required environment variables listed in the `sample.env.local` file.
+
+5. Start the development server using the following command:
+
+```shell
+npm run start:dev
+```
+
+**Note:** Make sure the MongoDB database is running and accessible.
+
+## Environment Variables
+
+Below are the environment variables required for running the SetApp app:
+
+### Client-Side Environment Variables
+
+- `PORT`: The port number on which the client-side app will run.
+- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`: The public key for Clerk authentication.
+- `CLERK_SECRET_KEY`: The secret key for Clerk authentication.
+- `DATABASE_URL`: The URL of the MongoDB database.
+
+### Server-Side Environment Variables
+
+- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`: The public key for Clerk authentication.
+- `CLERK_SECRET_KEY`: The secret key for Clerk authentication.
+- `NEXT_PUBLIC_BASE_URL`: The base URL of the server-side app.
+- `OPENAI_API_KEY`: The API key for OpenAI integration.
+- `COMPLETION_PROMPT`: The prompt for OpenAI to generate suggestions.
+
+Please ensure you have these variables set correctly for the app to function properly.
+
+## Technologies Used
+
+BlauPrint is built using the following technologies:
+
+- [Nest.js](https://nestjs.com/): A progressive Node.js framework for building efficient and scalable server-side applications.
+- [MongoDB with Prisma](https://www.prisma.io/): A modern database toolkit for TypeScript and Node.js that integrates seamlessly with MongoDB.
+- [Next.js](https://nextjs.org/): A React framework for building server-side rendered and statically generated web applications.
+- [Redux](https://redux.js.org/): A predictable state container for JavaScript apps.
+
+## Contributing
+
+We welcome contributions from the community to improve and enhance BlauPrint. If you would like to contribute, please follow these guidelines:
+
+1. Fork the repository and create your branch from `main`.
+2. Make your desired changes and ensure the codebase adheres to the existing style.
+3. Test your changes thoroughly.
+4. Create a pull request describing your changes and the problem they solve.
+
+We appreciate your contributions in making BlauPrint better for aspiring developers.
 
 ## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+If you encounter any issues or have questions about BlauPrint, please [open an issue](https://github.com/BlauPrint/issues) on GitHub. Our team will be happy to assist you.
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
->>>>>>> 0979aee (initial install)
+BlauPrint is released under the [MIT License](LICENSE). Please review the license file for more details.
+
+---
+
+Thank you for choosing BlauPrint as your guide to create your first MVP! We hope you find this app helpful on your development journey. Happy coding!
