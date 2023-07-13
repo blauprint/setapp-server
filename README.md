@@ -1,5 +1,18 @@
 # SetApp - Beginner's MVP Creation App
 
+<p align="center">
+<img src="https://img.shields.io/badge/Next.js-000000.svg?style&logo=Next.js&logoColor=white" alt="Next.js" />
+<img src="https://img.shields.io/badge/TypeScript-3178C6.svg?style&logo=TypeScript&logoColor=white" alt="TypeScript" />
+<img src="https://img.shields.io/badge/Redux-764ABC.svg?style&logo=Redux&logoColor=white" alt="Redux" />
+<img src="https://img.shields.io/badge/Jest-C21325.svg?style&logo=Jest&logoColor=white" alt="Jest" />
+</p>
+<p>
+<img src="https://img.shields.io/github/languages/top/blauprint/setapp-client?style&color=5D6D7E" alt="GitHub top language" />
+<img src="https://img.shields.io/github/languages/code-size/blauprint/setapp-client?style&color=5D6D7E" alt="GitHub code size in bytes" />
+<img src="https://img.shields.io/github/commit-activity/m/blauprint/setapp-client?style&color=5D6D7E" alt="GitHub commit activity" />
+<img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" />
+</p>
+
 Welcome to SetApp, an app designed to help beginner developers create their first Minimum Viable Product (MVP). This app provides valuable tips on which frameworks to use, the database schema, color schema, and step-by-step guidance on how to proceed. Powered by OpenAI, SetApp aims to simplify the MVP creation process for aspiring developers.
 
 ## Organization: BlauPrint
