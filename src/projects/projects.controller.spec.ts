@@ -8,11 +8,11 @@ import { mockDeep } from 'jest-mock-extended';
 
 
 describe('ProjectsController', () => {
-  let controller: ProjectsController;
   // let pri: PrismaClient = new PrismaClient();
   let pri: PrismaClient = mockDeep<PrismaClient>();
-  let prisma: PrismaService = new PrismaService();
+  // let prisma: PrismaService = new PrismaService();
   let service: ProjectService = new ProjectService(pri);
+  let controller: ProjectsController = new ProjectsController(service);
 
   let findManyMock: jest.Mock;
   let findUniqueMock: jest.Mock;
@@ -76,12 +76,21 @@ describe('ProjectsController', () => {
       createProjectMock.mockResolvedValue(projectToCreate);
     });
 
-    it('should create a new project', async () => {
+    it('should create a new project and add properties: id, backendId, frontendId', async () => {
+      const result = await controller.createProject('1', mocks.mockProjectToCreate);
+      expect(result).toHaveProperty("id");
+      expect(result).toHaveProperty("backendId");
+      expect(result).toHaveProperty("frontendId");
+      expect(result.backend).toHaveProperty("databaseId");
+      expect(result.frontend).toHaveProperty("colorSchemeId");
+    });
+
+    it('should create a new project and backend and add properties: databaseId', async () => {
       const result = await controller.createProject('1', mocks.mockProjectToCreate);
       console.log(result, 'result');
-      expect(result.backend.database).toHaveProperty("schema");
+      expect(result.backend).toHaveProperty("databaseId");
+      expect(result.frontend).toHaveProperty("colorSchemeId");
     });
 
   });
-
 });

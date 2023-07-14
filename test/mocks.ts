@@ -1,3 +1,5 @@
+import { ProjectDTO } from "src/projects/dto";
+
 export const mockProject = {
   id: '1',
   userId: '1',
@@ -8,7 +10,7 @@ export const mockProject = {
   frontend: {
     id: '1',
     projectId: '1',
-    todoList: ['test1', 'texst2'],
+    todoList: ['test1'],
     frameworkId: '1',
     framework: {
       name: 'test',
@@ -28,7 +30,7 @@ export const mockProject = {
   backend: {
     id: '1',
     projectId: '1',
-    todoList: ['test1', 'test2'],
+    todoList: ['test1'],
     frameworkId: '1',
     framework: {
       name: 'test',
@@ -53,8 +55,7 @@ export const mockProjectToCreate = {
   idea: 'mock idea',
   title: 'mock',
   frontend: {
-    projectId: '1',
-    todoList: 'test1',
+    todoList: ['test1'],
     framework: {
       name: 'test',
       whyGoodOption: 'test',
@@ -69,8 +70,7 @@ export const mockProjectToCreate = {
     },
   },
   backend: {
-    projectId: '1',
-    todoList: 'test1',
+    todoList: ['test1'],
     framework: {
       name: 'test',
       whyGoodOption: 'test',

@@ -10,6 +10,7 @@ export class ProjectService {
 	pri = new PrismaClient();
 
 	constructor(private prisma: PrismaService) { }
+
 	async getProjects(userId: string) {
 		return await this.prisma.project.findMany({
 			where: {
@@ -41,6 +42,7 @@ export class ProjectService {
 			}
 		});
 	}
+
 	async getProjectById(id: string) {
 		const project = await this.prisma.project.findUnique({
 			where: {

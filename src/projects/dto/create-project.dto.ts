@@ -51,11 +51,12 @@ class FrontendDTO {
   @ValidateNested()
   colorScheme: ColorSchemeDTO;
 
-  @IsString()
-  projectId: string;
+  // @IsString()
+  // projectId: string;
 
   @IsArray()
-  todoList: string;
+  @ValidateNested()
+  todoList: string[];
 }
 
 class DatabaseDTO {
@@ -88,7 +89,7 @@ class BackendDTO {
 
   @IsArray()
   @ValidateNested()
-  todoList: string;
+  todoList: string[];
 }
 
 export class ProjectDTO {
