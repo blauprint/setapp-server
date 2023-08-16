@@ -1,9 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import 'dotenv/config';
 import { ValidationPipe } from '@nestjs/common';
+import dotenv from 'dotenv';
+import path from 'path';
 
-declare const module: any 
+// const NODE_ENV = process.env.NODE_ENV ? "." + process.env.NODE_ENV : "";
+
+// dotenv.config({
+//   path: path.resolve(__dirname, `../${NODE_ENV}.env`)
+// });
+
+declare const module: any
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   app.useGlobalPipes(

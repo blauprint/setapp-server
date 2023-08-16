@@ -9,9 +9,9 @@ import { mockDeep } from 'jest-mock-extended';
 
 describe('ProjectsController', () => {
   // let pri: PrismaClient = new PrismaClient();
-  let pri: PrismaClient = mockDeep<PrismaClient>();
-  // let prisma: PrismaService = new PrismaService();
-  let service: ProjectService = new ProjectService(pri);
+  // let pri: PrismaClient = mockDeep<PrismaClient>();
+  let prisma: PrismaService = new PrismaService();
+  let service: ProjectService = new ProjectService(prisma);
   let controller: ProjectsController = new ProjectsController(service);
 
   let findManyMock: jest.Mock;
